@@ -15,7 +15,7 @@ if (-Not (Test-Path "C:\projects\chef"))
   pushd c:\projects
   git clone https://github.com/chef/chef
 }
-pushd chef
+pushd c:\projects\chef
 
 git fetch origin
 git checkout tp/infc-373-disable-dynamic
