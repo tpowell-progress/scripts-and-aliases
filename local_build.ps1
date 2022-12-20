@@ -12,9 +12,10 @@
 if (-Not (Test-Path "C:\projects\chef"))
 {
   # Set up dev work directory
+  pushd c:\projects
   git clone https://github.com/chef/chef
 }
-cd chef
+pushd chef
 
 git fetch origin
 git checkout tp/infc-373-disable-dynamic
@@ -67,3 +68,6 @@ if (-Not (Test-Path $env:MSYS2_INSTALL_DIR\tmp))
   mkdir $env:MSYS2_INSTALL_DIR\tmp
 }
 bundle exec omnibus build chef
+
+popd
+popd
