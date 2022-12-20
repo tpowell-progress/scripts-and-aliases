@@ -31,7 +31,7 @@ switch -regex ($env:RUBY_VERSION) {
 }
 
 # omnibus/omnibus.rb looking for x64 or x86 or defaults to x86
-if ( $platform="x64" ) {
+if ( $platform -eq "x64" ) {
   $env:Path = "$ruby_path\bin;$ruby_path\msys64\usr\bin;$ruby_path\msys64\mingw64\bin;$env:Path"
   $env:MSYSTEM="UCRT64"
   $env:MSYS2_INSTALL_DIR="C:/Ruby31-x64/msys64"
