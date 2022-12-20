@@ -20,13 +20,33 @@ git fetch origin
 git checkout tp/debug-fips-locally
 git pull
 
+switch -regex ($env:BITNESS) {
+  "64" { $platform="x64" }
+  "32" { $platform="x86" }
+}
+switch -regex ($env:RUBY_VERSION) {
+  "2.7.7" { $ruby_version="2.7.7-1"; $ruby_path="C:\Ruby27" }
+  "3.1.3" { $ruby_version="3.1.3-1"; $ruby_path="C:\Ruby31-$platform" }
+}
+
 # omnibus/omnibus.rb looking for x64 or x86 or defaults to x86
-$env:MSYSTEM="UCRT64"
-$ENV:MSYS2_INSTALL_DIR="C:/Ruby31-x64/msys64"
-$env:OMNIBUS_WINDOWS_ARCH = "x64"
-$env:OMNIBUS_FIPS_MODE="true"
-$mePath=$env:PATH
-$env:PATH="C:\Program Files\7-Zip;C:\Ruby31-x64\msys64\usr\bin;C:\Ruby31-x64\msys64\ucrt64\bin;$env:MSYS2_INSTALL_DIR\usr\bin;C:\Program Files\git\bin;$mePath"
+if ( $platform="x64" ) {
+  $env:Path = "$ruby_path\bin;$ruby_path\msys64\usr\bin;$ruby_path\msys64\mingw64\bin;$env:Path"
+  $env:MSYSTEM="UCRT64"
+  $env:MSYS2_INSTALL_DIR="C:/Ruby31-x64/msys64"
+  $env:OMNIBUS_WINDOWS_ARCH = "x64"
+  $env:OMNIBUS_FIPS_MODE="true"
+  $mePath=$env:PATH
+  $env:PATH="C:\Program Files\7-Zip;C:\Ruby31-x64\msys64\usr\bin;C:\Ruby31-x64\msys64\ucrt64\bin;$env:MSYS2_INSTALL_DIR\usr\bin;C:\Program Files\git\bin;$mePath"
+} else {
+  $env:Path = "$ruby_path\bin;$ruby_path\msys64\usr\bin;$ruby_path\msys64\mingw32\bin;$env:Path"
+  $env:MSYSTEM="MINGW32"
+  $env:MSYS2_INSTALL_DIR="C:/Ruby27/mingw32"
+  $env:OMNIBUS_WINDOWS_ARCH = "x86"
+  $env:OMNIBUS_FIPS_MODE="true"
+  $mePath=$env:PATH
+  $env:PATH="C:\Program Files\7-Zip;$env:MSYS2_INSTALL_DIR\usr\bin;C:\Program Files\git\bin;$mePath"
+}
 
 # set / uncomment these to change their respective branches
 #$env:OMNIBUS_GITHUB_BRANCH="tp/debug-fips-locally"
