@@ -1,38 +1,3 @@
-if (-Not (Get-Command choco -ErrorAction SilentlyContinue))
-{
-# install Chrome
-  $LocalTempDir = $env:TEMP; $ChromeInstaller = "ChromeInstaller.exe"; (new-object System.Net.WebClient).DownloadFile('http://dl.google.com/chrome/install/375.126/chrome_installer.exe', "$LocalTempDir\$ChromeInstaller"); & "$LocalTempDir\$ChromeInstaller" /silent /install; $Process2Monitor =  "ChromeInstaller"; Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$ChromeInstaller" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
-
-
-# Install Chocolately
-  Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-
-# Refresh PATH
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-
-}
-
-if (-Not (Get-Command git -ErrorAction SilentlyContinue))
-{
-# Install git
-  choco install -y git
-
-# Refresh PATH
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-}
-
-if (-Not (Test-Path "C:\Projects"))
-{
-  mkdir c:\projects
-}
-cd \projects
-
-if (-Not (Test-Path "C:\Ruby31-x64"))
-{
-  Invoke-WebRequest -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.2-1/rubyinstaller-devkit-3.1.2-1-x64.exe" -OutFile "rubyinstaller-devkit-3.1.2-x64.exe"
-  .\rubyinstaller-devkit-3.1.2-x64.exe
-}
-
 # install 7-Zip and add to path
 # `mkdir c:\ruby31-x64\msys64\tmp`
 #
