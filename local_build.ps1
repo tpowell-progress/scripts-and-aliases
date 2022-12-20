@@ -41,7 +41,7 @@ if ( $platform="x64" ) {
   $mePath=$env:PATH
   $env:PATH="C:\Program Files\7-Zip;C:\Ruby31-x64\msys64\usr\bin;C:\Ruby31-x64\msys64\ucrt64\bin;$env:MSYS2_INSTALL_DIR\usr\bin;C:\Program Files\git\bin;$mePath"
 } else {
-  $env:Path = "$ruby_path\bin;$ruby_path\msys64\usr\bin;$ruby_path\msys64\mingw32\bin;$env:Path"
+  $env:Path = "$ruby_path\bin;$env:Path"
   $env:MSYSTEM="MINGW32"
   $env:MSYS2_INSTALL_DIR="C:/Ruby27/mingw32"
   $env:OMNIBUS_WINDOWS_ARCH = "x86"
