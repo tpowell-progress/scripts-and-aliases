@@ -17,7 +17,7 @@ if (-Not (Test-Path "C:\projects\chef"))
 cd chef
 
 git fetch origin
-git checkout tp/debug-fips-locally
+git checkout tp/infc-373-disable-dynamic
 git pull
 
 switch -regex ($env:BITNESS) {
@@ -34,6 +34,7 @@ if ( $platform="x64" ) {
   $env:Path = "$ruby_path\bin;$ruby_path\msys64\usr\bin;$ruby_path\msys64\mingw64\bin;$env:Path"
   $env:MSYSTEM="UCRT64"
   $env:MSYS2_INSTALL_DIR="C:/Ruby31-x64/msys64"
+  $env:OMNIBUS_SOFTWARE_GITHUB_BRANCH="tp/infc-373-disable-dynamic"
   $env:OMNIBUS_WINDOWS_ARCH = "x64"
   $env:OMNIBUS_FIPS_MODE="true"
   $mePath=$env:PATH
